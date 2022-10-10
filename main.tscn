@@ -1,0 +1,324 @@
+[gd_scene load_steps=26 format=2]
+
+[ext_resource path="res://art/bg.jpg" type="Texture" id=1]
+[ext_resource path="res://Missile.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Patriot.tscn" type="PackedScene" id=4]
+[ext_resource path="res://City1.tscn" type="PackedScene" id=5]
+[ext_resource path="res://art/hp_bar.png" type="Texture" id=6]
+[ext_resource path="res://art/hp_bar_inner.png" type="Texture" id=7]
+[ext_resource path="res://art/health_label.png" type="Texture" id=8]
+[ext_resource path="res://art/sad.png" type="Texture" id=9]
+[ext_resource path="res://art/undergreen.jpg" type="Texture" id=10]
+[ext_resource path="res://AnswerPanel.gd" type="Script" id=11]
+[ext_resource path="res://music/beat.mp3" type="AudioStream" id=12]
+[ext_resource path="res://art/reticle.png" type="Texture" id=13]
+[ext_resource path="res://reticle.gd" type="Script" id=14]
+[ext_resource path="res://default_theme.tres" type="Theme" id=15]
+[ext_resource path="res://fonts/BerlinDemi.tres" type="DynamicFont" id=16]
+[ext_resource path="res://fonts/Berlin Sans FB Demi Bold.ttf" type="DynamicFontData" id=17]
+[ext_resource path="res://main.gd" type="Script" id=31]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 511.5, 34.5 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.956863, 0.878431, 0.878431, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="CanvasItemMaterial" id=3]
+blend_mode = 1
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.941176, 0.0705882, 0.0705882, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.929412, 0.478431, 0.0862745, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.47451, 0.0156863, 0.0156863, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.941176, 0.0705882, 0.0705882, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="DynamicFont" id=8]
+size = 30
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 17 )
+
+[node name="main" type="Node2D"]
+script = ExtResource( 31 )
+missile_scene = ExtResource( 2 )
+
+[node name="background" type="TextureRect" parent="."]
+margin_left = -3.0
+margin_right = 1031.0
+margin_bottom = 597.0
+mouse_filter = 2
+texture = ExtResource( 1 )
+expand = true
+
+[node name="background_under" type="TextureRect" parent="."]
+margin_left = -5.0
+margin_top = 597.0
+margin_right = 1030.0
+margin_bottom = 724.0
+texture = ExtResource( 10 )
+expand = true
+
+[node name="City1" parent="." instance=ExtResource( 5 )]
+position = Vector2( 513, 360 )
+scale = Vector2( 0.25136, 0.25136 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 375, 489 )
+
+[node name="ground" type="StaticBody2D" parent="."]
+position = Vector2( 510.5, 561.5 )
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ground"]
+shape = SubResource( 1 )
+
+[node name="MissileTimer" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="playerStart" type="Node2D" parent="."]
+position = Vector2( 389, 475 )
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="Patriot" parent="." instance=ExtResource( 4 )]
+position = Vector2( 876, 477 )
+scale = Vector2( 0.837193, 0.837193 )
+
+[node name="Patriot2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 188, 474 )
+scale = Vector2( 0.79874, 0.842877 )
+direction = 1
+
+[node name="CityLoc" type="Node2D" parent="."]
+position = Vector2( 511, 407 )
+scale = Vector2( 0.35, 0.35 )
+
+[node name="West" type="Node2D" parent="."]
+position = Vector2( 108, -29 )
+
+[node name="East" type="Node2D" parent="."]
+position = Vector2( 951, -31 )
+
+[node name="CityHealth" type="TextureProgress" parent="."]
+margin_left = 412.0
+margin_top = 261.0
+margin_right = 612.0
+margin_bottom = 326.0
+max_value = 5.0
+texture_under = ExtResource( 6 )
+texture_progress = ExtResource( 7 )
+
+[node name="lblCityHealth" type="TextureRect" parent="CityHealth"]
+margin_left = 35.0
+margin_top = -22.0
+margin_right = 282.0
+margin_bottom = 46.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 8 )
+
+[node name="AnswerPanel" type="Panel" parent="."]
+margin_left = 200.0
+margin_top = 584.0
+margin_right = 854.0
+margin_bottom = 712.0
+custom_styles/panel = SubResource( 4 )
+script = ExtResource( 11 )
+
+[node name="lblAnswer1" type="Button" parent="AnswerPanel"]
+material = SubResource( 3 )
+margin_left = 136.0
+margin_top = 40.0
+margin_right = 464.0
+margin_bottom = 60.0
+toggle_mode = true
+text = "..."
+
+[node name="lblAnswer2" type="Button" parent="AnswerPanel"]
+material = SubResource( 3 )
+margin_left = 136.0
+margin_top = 88.0
+margin_right = 464.0
+margin_bottom = 108.0
+toggle_mode = true
+text = "..."
+
+[node name="lblAnswer3" type="Button" parent="AnswerPanel"]
+material = SubResource( 3 )
+margin_left = 136.0
+margin_top = 64.0
+margin_right = 464.0
+margin_bottom = 84.0
+toggle_mode = true
+text = "..."
+
+[node name="lblAnswer4" type="Button" parent="AnswerPanel"]
+material = SubResource( 3 )
+margin_left = 136.0
+margin_top = 13.0
+margin_right = 464.0
+margin_bottom = 36.0
+toggle_mode = true
+text = "..."
+
+[node name="btnEngage" type="Button" parent="AnswerPanel"]
+margin_left = 520.0
+margin_top = 16.0
+margin_right = 630.0
+margin_bottom = 112.0
+custom_fonts/font = ExtResource( 16 )
+custom_styles/hover = SubResource( 7 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/normal = SubResource( 5 )
+text = "ENGAGE"
+
+[node name="lblPrompt" type="Label" parent="AnswerPanel"]
+margin_left = 48.0
+margin_top = 48.0
+margin_right = 88.0
+margin_bottom = 62.0
+align = 1
+uppercase = true
+
+[node name="reticle" type="CanvasLayer" parent="."]
+script = ExtResource( 14 )
+
+[node name="txtReticle" type="TextureRect" parent="reticle"]
+margin_left = 1112.0
+margin_top = 216.0
+margin_right = 1176.0
+margin_bottom = 280.0
+texture = ExtResource( 13 )
+
+[node name="filter" type="TextureRect" parent="."]
+visible = false
+margin_left = -14.0
+margin_top = -14.0
+margin_right = 1059.0
+margin_bottom = 737.0
+mouse_filter = 2
+texture = ExtResource( 9 )
+expand = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
+
+[node name="locAudio" type="AudioStreamPlayer2D" parent="."]
+
+[node name="panGameOver" type="Panel" parent="."]
+visible = false
+margin_left = 312.0
+margin_top = 48.0
+margin_right = 688.0
+margin_bottom = 240.0
+theme = ExtResource( 15 )
+
+[node name="Label" type="Label" parent="panGameOver"]
+margin_left = 136.0
+margin_top = 16.0
+margin_right = 231.0
+margin_bottom = 44.0
+text = "FAILURE"
+
+[node name="Label2" type="Label" parent="panGameOver"]
+margin_left = 40.0
+margin_top = 88.0
+margin_right = 185.0
+margin_bottom = 116.0
+text = "Interceptions:"
+
+[node name="Label3" type="Label" parent="panGameOver"]
+margin_left = 40.0
+margin_top = 56.0
+margin_right = 185.0
+margin_bottom = 84.0
+text = "Difficulty:"
+
+[node name="lblDifficulty" type="Label" parent="panGameOver"]
+margin_left = 240.0
+margin_top = 56.0
+margin_right = 280.0
+margin_bottom = 84.0
+
+[node name="lblScore" type="Label" parent="panGameOver"]
+margin_left = 240.0
+margin_top = 88.0
+margin_right = 280.0
+margin_bottom = 116.0
+
+[node name="btnRestart" type="Button" parent="panGameOver"]
+margin_left = 24.0
+margin_top = 136.0
+margin_right = 176.0
+margin_bottom = 170.0
+text = "Restart"
+
+[node name="btnMenu" type="Button" parent="panGameOver"]
+margin_left = 192.0
+margin_top = 136.0
+margin_right = 344.0
+margin_bottom = 170.0
+text = "Menu"
+
+[node name="lblInstructions" type="Label" parent="."]
+margin_left = 168.0
+margin_top = 144.0
+margin_right = 825.0
+margin_bottom = 179.0
+custom_fonts/font = SubResource( 8 )
+text = "Protect the city by clicking on and engaging targets!"
+
+[connection signal="city_damaged" from="City1" to="." method="_on_City1_city_damaged"]
+[connection signal="city_destroyed" from="City1" to="." method="_on_City1_city_destroyed"]
+[connection signal="launcher_reached" from="Player" to="." method="_on_Player_launcher_reached"]
+[connection signal="timeout" from="MissileTimer" to="." method="_on_MissileTimer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
+[connection signal="correct_response" from="AnswerPanel" to="." method="_on_AnswerPanel_correct_response"]
+[connection signal="pressed" from="AnswerPanel/lblAnswer1" to="AnswerPanel" method="_on_lblAnswer1_pressed"]
+[connection signal="pressed" from="AnswerPanel/lblAnswer2" to="AnswerPanel" method="_on_lblAnswer2_pressed"]
+[connection signal="pressed" from="AnswerPanel/lblAnswer3" to="AnswerPanel" method="_on_lblAnswer3_pressed"]
+[connection signal="pressed" from="AnswerPanel/lblAnswer4" to="AnswerPanel" method="_on_lblAnswer4_pressed"]
+[connection signal="pressed" from="AnswerPanel/btnEngage" to="AnswerPanel" method="_on_btnEngage_pressed"]
+[connection signal="pressed" from="panGameOver/btnRestart" to="." method="_on_btnRestart_pressed"]
+[connection signal="pressed" from="panGameOver/btnMenu" to="." method="_on_btnMenu_pressed"]
