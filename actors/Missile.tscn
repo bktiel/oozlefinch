@@ -27,8 +27,8 @@
 [ext_resource path="res://art/explode/explode 15.png" type="Texture" id=25]
 [ext_resource path="res://art/explode/explode 14.png" type="Texture" id=26]
 [ext_resource path="res://art/explode/explode 16.png" type="Texture" id=27]
-[ext_resource path="res://Missile.gd" type="Script" id=28]
-[ext_resource path="res://labelHolder.gd" type="Script" id=29]
+[ext_resource path="res://scripts/Missile.gd" type="Script" id=28]
+[ext_resource path="res://scripts/labelHolder.gd" type="Script" id=29]
 [ext_resource path="res://fonts/BerlinDemi.tres" type="DynamicFont" id=30]
 [ext_resource path="res://outside.tres" type="Theme" id=31]
 

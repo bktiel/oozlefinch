@@ -1,24 +1,24 @@
 [gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://art/bg.jpg" type="Texture" id=1]
-[ext_resource path="res://Missile.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Patriot.tscn" type="PackedScene" id=4]
-[ext_resource path="res://City1.tscn" type="PackedScene" id=5]
-[ext_resource path="res://art/hp_bar.png" type="Texture" id=6]
-[ext_resource path="res://art/hp_bar_inner.png" type="Texture" id=7]
-[ext_resource path="res://art/health_label.png" type="Texture" id=8]
-[ext_resource path="res://art/sad.png" type="Texture" id=9]
-[ext_resource path="res://art/undergreen.jpg" type="Texture" id=10]
-[ext_resource path="res://AnswerPanel.gd" type="Script" id=11]
-[ext_resource path="res://music/beat.mp3" type="AudioStream" id=12]
-[ext_resource path="res://art/reticle.png" type="Texture" id=13]
-[ext_resource path="res://reticle.gd" type="Script" id=14]
-[ext_resource path="res://default_theme.tres" type="Theme" id=15]
-[ext_resource path="res://fonts/BerlinDemi.tres" type="DynamicFont" id=16]
-[ext_resource path="res://fonts/Berlin Sans FB Demi Bold.ttf" type="DynamicFontData" id=17]
-[ext_resource path="res://art/redpixel.png" type="Texture" id=18]
-[ext_resource path="res://main.gd" type="Script" id=31]
+[ext_resource path="res://default_theme.tres" type="Theme" id=2]
+[ext_resource path="res://music/beat.mp3" type="AudioStream" id=3]
+[ext_resource path="res://scripts/AnswerPanel.gd" type="Script" id=4]
+[ext_resource path="res://scripts/reticle.gd" type="Script" id=5]
+[ext_resource path="res://scripts/main.gd" type="Script" id=6]
+[ext_resource path="res://art/redpixel.png" type="Texture" id=7]
+[ext_resource path="res://fonts/BerlinDemi.tres" type="DynamicFont" id=8]
+[ext_resource path="res://actors/City1.tscn" type="PackedScene" id=9]
+[ext_resource path="res://actors/Player.tscn" type="PackedScene" id=10]
+[ext_resource path="res://actors/Missile.tscn" type="PackedScene" id=11]
+[ext_resource path="res://actors/Patriot.tscn" type="PackedScene" id=12]
+[ext_resource path="res://art/health_label.png" type="Texture" id=13]
+[ext_resource path="res://art/reticle.png" type="Texture" id=14]
+[ext_resource path="res://art/sad.png" type="Texture" id=15]
+[ext_resource path="res://art/undergreen.jpg" type="Texture" id=16]
+[ext_resource path="res://art/hp_bar.png" type="Texture" id=17]
+[ext_resource path="res://art/hp_bar_inner.png" type="Texture" id=18]
+[ext_resource path="res://fonts/Berlin Sans FB Demi Bold.ttf" type="DynamicFontData" id=19]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 511.5, 34.5 )
@@ -76,11 +76,11 @@ corner_radius_bottom_left = 5
 size = 30
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 17 )
+font_data = ExtResource( 19 )
 
 [node name="main" type="Node2D"]
-script = ExtResource( 31 )
-missile_scene = ExtResource( 2 )
+script = ExtResource( 6 )
+missile_scene = ExtResource( 11 )
 
 [node name="background" type="TextureRect" parent="."]
 margin_left = -3.0
@@ -95,14 +95,14 @@ margin_left = -5.0
 margin_top = 597.0
 margin_right = 1030.0
 margin_bottom = 724.0
-texture = ExtResource( 10 )
+texture = ExtResource( 16 )
 expand = true
 
-[node name="City1" parent="." instance=ExtResource( 5 )]
+[node name="City1" parent="." instance=ExtResource( 9 )]
 position = Vector2( 513, 360 )
 scale = Vector2( 0.25136, 0.25136 )
 
-[node name="Player" parent="." instance=ExtResource( 3 )]
+[node name="Player" parent="." instance=ExtResource( 10 )]
 position = Vector2( 375, 489 )
 
 [node name="ground" type="StaticBody2D" parent="."]
@@ -123,11 +123,11 @@ position = Vector2( 389, 475 )
 wait_time = 2.0
 one_shot = true
 
-[node name="Patriot" parent="." instance=ExtResource( 4 )]
+[node name="Patriot" parent="." instance=ExtResource( 12 )]
 position = Vector2( 876, 477 )
 scale = Vector2( 0.837193, 0.837193 )
 
-[node name="Patriot2" parent="." instance=ExtResource( 4 )]
+[node name="Patriot2" parent="." instance=ExtResource( 12 )]
 position = Vector2( 188, 474 )
 scale = Vector2( 0.79874, 0.842877 )
 direction = 1
@@ -148,8 +148,8 @@ margin_top = 261.0
 margin_right = 612.0
 margin_bottom = 326.0
 max_value = 5.0
-texture_under = ExtResource( 6 )
-texture_progress = ExtResource( 7 )
+texture_under = ExtResource( 17 )
+texture_progress = ExtResource( 18 )
 
 [node name="lblCityHealth" type="TextureRect" parent="CityHealth"]
 margin_left = 35.0
@@ -157,7 +157,7 @@ margin_top = -22.0
 margin_right = 282.0
 margin_bottom = 46.0
 rect_scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 8 )
+texture = ExtResource( 13 )
 
 [node name="AnswerPanel" type="Panel" parent="."]
 margin_left = 200.0
@@ -165,7 +165,7 @@ margin_top = 584.0
 margin_right = 854.0
 margin_bottom = 712.0
 custom_styles/panel = SubResource( 4 )
-script = ExtResource( 11 )
+script = ExtResource( 4 )
 
 [node name="lblAnswer1" type="Button" parent="AnswerPanel"]
 material = SubResource( 3 )
@@ -208,7 +208,7 @@ margin_left = 520.0
 margin_top = 16.0
 margin_right = 630.0
 margin_bottom = 112.0
-custom_fonts/font = ExtResource( 16 )
+custom_fonts/font = ExtResource( 8 )
 custom_styles/hover = SubResource( 7 )
 custom_styles/pressed = SubResource( 6 )
 custom_styles/normal = SubResource( 5 )
@@ -223,7 +223,7 @@ align = 1
 uppercase = true
 
 [node name="reticle" type="CanvasLayer" parent="."]
-script = ExtResource( 14 )
+script = ExtResource( 5 )
 
 [node name="txtReticle" type="TextureRect" parent="reticle"]
 visible = false
@@ -231,7 +231,7 @@ margin_left = 1112.0
 margin_top = 216.0
 margin_right = 1176.0
 margin_bottom = 280.0
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 
 [node name="filter" type="TextureRect" parent="."]
 visible = false
@@ -240,7 +240,7 @@ margin_top = -14.0
 margin_right = 1059.0
 margin_bottom = 737.0
 mouse_filter = 2
-texture = ExtResource( 9 )
+texture = ExtResource( 15 )
 expand = true
 
 [node name="damagefilter" type="TextureRect" parent="."]
@@ -250,11 +250,11 @@ margin_top = -14.0
 margin_right = 1059.0
 margin_bottom = 737.0
 mouse_filter = 2
-texture = ExtResource( 18 )
+texture = ExtResource( 7 )
 expand = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 12 )
+stream = ExtResource( 3 )
 
 [node name="locAudio" type="AudioStreamPlayer2D" parent="."]
 
@@ -264,7 +264,7 @@ margin_left = 312.0
 margin_top = 48.0
 margin_right = 688.0
 margin_bottom = 240.0
-theme = ExtResource( 15 )
+theme = ExtResource( 2 )
 
 [node name="Label" type="Label" parent="panGameOver"]
 margin_left = 136.0

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://art/oozle.png" type="Texture" id=1]
 [ext_resource path="res://art/oozle_walk.png" type="Texture" id=2]
-[ext_resource path="res://Player.gd" type="Script" id=3]
+[ext_resource path="res://scripts/Player.gd" type="Script" id=3]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {

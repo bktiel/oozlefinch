@@ -227,7 +227,7 @@ func _on_locAudio_finished():
 
 
 func _on_btnRestart_pressed():
-	get_tree().change_scene("res://main.tscn")
+	get_tree().change_scene("res://levels/main.tscn")
 
 
 func _on_btnMenu_pressed():
