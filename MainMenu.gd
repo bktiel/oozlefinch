@@ -15,3 +15,7 @@ func _on_btnNewGame_pressed():
 	get_node("/root/Global").difficulty=$Panel/optDifficulty.selected
 	get_node("/root/Global").difficultyString=$Panel/optDifficulty.text
 	get_tree().change_scene("res://main.tscn")
+
+
+func _on_btnQuit_pressed():
+	get_tree().quit()

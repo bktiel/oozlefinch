@@ -10,6 +10,15 @@ signal correct_response(ID)
 func _ready():
 	pass
 	
+func _process(delta):
+	if Input.is_action_pressed("option1"):
+		_on_lblAnswer1_pressed()
+	elif Input.is_action_pressed("option2"):
+		_on_lblAnswer2_pressed()
+	elif Input.is_action_pressed("option3"):
+		_on_lblAnswer3_pressed()
+	elif Input.is_action_pressed("option4"):
+		_on_lblAnswer4_pressed()
 
 
 func set_question_answers(array,row_index):
@@ -27,14 +36,14 @@ func set_question_answers(array,row_index):
 	# others
 	for i in range(4):
 		if i==correct:
-			labels[i].text=array[row_index][1]
+			labels[i].text="%d) %s " % [i+1,array[row_index][1]]
 			continue
 		var falseAnswer=floor(randi()%array.size())
 		while(used_answers.has(falseAnswer)):
 			randomize()
 			falseAnswer=floor(randi()%array.size())
 		used_answers.push_back(falseAnswer)
-		labels[i].text=array[falseAnswer][1]
+		labels[i].text="%d) %s " % [i+1,array[falseAnswer][1]]
 
 func reset_buttons():
 	for i in range(4):

@@ -78,3 +78,4 @@ custom_fonts/font = SubResource( 1 )
 text = "Oozle Defense"
 
 [connection signal="pressed" from="Panel/btnNewGame" to="." method="_on_btnNewGame_pressed"]
+[connection signal="pressed" from="Panel/btnQuit" to="." method="_on_btnQuit_pressed"]

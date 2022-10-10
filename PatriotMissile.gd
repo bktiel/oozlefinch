@@ -27,6 +27,10 @@ func _physics_process(delta):
 		return
 	else:
 		look_at(target.position)
+	# shrink over time
+	scale.x=clamp(scale.x-0.01,0.5,1)
+	scale.y=clamp(scale.y-0.01,0.5,1)
+	
 	velocity=Vector2(300,0).rotated(rotation)
 	position += velocity * delta
 

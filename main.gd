@@ -28,6 +28,7 @@ func _ready():
 	new_game() 
 
 func new_game():
+	randomize()
 	$filter.hide()
 	$panGameOver.hide()
 	$MissileTimer.wait_time-=difficulty
@@ -41,6 +42,10 @@ func new_game():
 	$CityHealth.value=5
 	$Player.start($playerStart.position)
 	
+	#var altChance=ceil(randi()%3)
+	#if altChance<=1:
+	#	var stream=load("res://music/%s.ogg"%"funky")
+	#	$AudioStreamPlayer.set_stream(stream)
 	$AudioStreamPlayer.play(0)
 	print("starting timer")
 	questions=load_questions()
@@ -127,6 +132,7 @@ func _process(delta):
 	#	$AnswerPanel.set_question_answers(questions,pendingQuestions.front()[0])
 	
 func game_over():
+	$AudioStreamPlayer.stop()
 	$MissileTimer.stop()
 	# this is a dumb way to do it but w/e
 	for eny in incoming:
@@ -143,7 +149,7 @@ func _on_StartTimer_timeout():
 
 func _on_MissileTimer_timeout():
 	cycles+=1
-	$MissileTimer.wait_time=clamp($MissileTimer.wait_time-(cycles/50),2,100)
+	$MissileTimer.wait_time=clamp($MissileTimer.wait_time-(cycles/40),2,100)
 	get_question()
 	
 func load_questions():
@@ -161,7 +167,7 @@ func load_questions():
 	
 
 func engage():
-	var side=randf()*4
+	var side=randf()*5
 	if side<=1:
 		$Player.firing=true
 	else:
@@ -185,8 +191,15 @@ func _on_Player_launcher_reached(launcher):
 
 # city damaged, update HP
 func _on_City1_city_damaged():
+	# show filter
+	$damagefilter.show()
+	position.y-=10
 	play_sound($City1.position,"explode")
 	$CityHealth.value-=1
+	yield(get_tree().create_timer(0.15), "timeout")
+	position.y+=10
+	$damagefilter.hide()
+	
 	if $City1.health<1:
 		$CityHealth.hide()
 		$filter.show()

@@ -45,7 +45,7 @@ func _on_Missile_body_entered(body):
 	dead=true
 	$labelHolder.hide()
 	# if homing, remove
-	if(pursuer):
+	if(is_instance_valid(pursuer)):
 		pursuer.queue_free()
 	$AnimatedSprite.scale= Vector2(0.8,0.8)
 	self.set_deferred("mode","MODE_CHARACTER")
