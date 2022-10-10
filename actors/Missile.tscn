@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://art/explode/explode 01.png" type="Texture" id=1]
 [ext_resource path="res://art/explode/explode 08.png" type="Texture" id=2]
@@ -30,7 +30,6 @@
 [ext_resource path="res://scripts/Missile.gd" type="Script" id=28]
 [ext_resource path="res://scripts/labelHolder.gd" type="Script" id=29]
 [ext_resource path="res://fonts/BerlinDemi.tres" type="DynamicFont" id=30]
-[ext_resource path="res://outside.tres" type="Theme" id=31]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 17.0
@@ -80,7 +79,6 @@ margin_left = 14.0
 margin_top = -3.0
 margin_right = 83.0
 margin_bottom = 36.0
-theme = ExtResource( 31 )
 custom_fonts/font = ExtResource( 30 )
 uppercase = true
 

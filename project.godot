@@ -19,7 +19,7 @@ config/windows_native_icon="res://art/200px-USAADA-BRANCH.svg.ico"
 
 [autoload]
 
-Global="*res://Global.gd"
+Global="*res://scripts/Global.gd"
 
 [display]
 
