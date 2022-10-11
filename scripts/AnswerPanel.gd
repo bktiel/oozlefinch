@@ -5,6 +5,7 @@ var selected=0
 var correct=0
 var question=-1
 signal correct_response(ID)
+signal bad_response()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -81,5 +82,8 @@ func _on_btnEngage_pressed():
 		clear_buttons()
 		emit_signal("correct_response",question)
 		question=-1
+	else:
+		if(question!=-1):
+			emit_signal("bad_response")
 		
 

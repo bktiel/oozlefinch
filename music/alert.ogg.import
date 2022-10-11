@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/alert.ogg-0cf74419a6a6c72a9a07b859874c60a8.oggstr"
+
+[deps]
+
+source_file="res://music/alert.ogg"
+dest_files=[ "res://.import/alert.ogg-0cf74419a6a6c72a9a07b859874c60a8.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

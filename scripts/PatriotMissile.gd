@@ -40,12 +40,20 @@ func _on_Lifetime_timeout():
 
 
 func _on_PatriotMissile_body_entered(body):
-	if(body.dead):
-		return
-	if(body.get_class()=="Missile" and body.pursuer==self):
-		set_physics_process(false)
-		hide()
-		body._on_Missile_body_entered(self)
+	if(body.get_class()=="Missile"):
+		if(body.dead):
+			return
+		if(body.pursuer==self):
+			set_physics_process(false)
+			hide()
+			body._on_Missile_body_entered(self)
+	elif(body.get_class()=="Hind"):
+		if(body.dead):
+			return
+		if(body.pursuer==self):
+			set_physics_process(false)
+			hide()
+			body.destroyed_by(self)
 	
 func get_class():
 	return "PatriotMissile"

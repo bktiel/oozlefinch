@@ -4,6 +4,8 @@ extends Node2D
 var score=0
 var difficulty
 export(PackedScene) var missile_scene
+export(PackedScene) var helicopter_scene
+
 
 var cycles=0
 
@@ -32,6 +34,8 @@ func new_game():
 	$filter.hide()
 	$panGameOver.hide()
 	$MissileTimer.wait_time-=difficulty
+	if(difficulty==2):
+		$Threat.max_value=4
 	# reset vars
 	incoming=[]
 	targets=[]
@@ -62,7 +66,7 @@ func get_question():
 	#pendingQuestions.append([questionIndex,missile])
 	
 	
-func launch_TBM(index=""):
+func launch_TBM(index=0):
 	var missile_location
 	var direction
 	var missile= missile_scene.instance()
@@ -70,7 +74,7 @@ func launch_TBM(index=""):
 	missile.questionIndex=index
 	var side=randf()*2
 	
-	missile.connect("clicked", self, "missile_clicked")
+	missile.connect("clicked", self, "threat_clicked")
 	missile.connect("explode", self, "remove_target")
 	
 
@@ -94,17 +98,63 @@ func launch_TBM(index=""):
 	incoming.push_back(missile)
 	return missile
 	
-func missile_clicked(id):
-	var missile=instance_from_id(id)
-	if(target==missile):
+func launch_ABT(index=0):
+	var helo=helicopter_scene.instance()
+	# set question
+	helo.questionIndex=index
+	
+	helo.transform=$heloEast.transform
+	helo.scale=Vector2(0.6,0.6)
+	helo.goal_x=$heloWest.position.x
+	# set gun orientation
+	
+	helo.get_node("labelHolder").get_node("lblQuery").text=questions[index][0]
+	helo.connect("clicked", self, "threat_clicked")
+	helo.connect("reached_goal", self, "helo_reached_goal")
+	helo.connect("shoot", self, "helo_shoot")
+	helo.connect("explode", self, "remove_target")
+	add_child(helo)
+	
+	for gun in helo.get_node("guns").get_children():
+		gun.look_at($heloShootRef.position)
+	incoming.push_back(helo)
+	return helo
+	
+# helo has reached goal and will turn around
+func helo_reached_goal(helo):
+	if(!is_instance_valid(helo)):
 		return
-	target=missile
+	if(helo.goal_x==$heloEast.position.x):
+		helo.goal_x=$heloWest.position.x
+	else:
+		helo.goal_x=$heloEast.position.x
+		
+	for gun in helo.get_node("guns").get_children():
+		gun.look_at($heloShootRef.position)
+	
+func helo_shoot(helo):
+	# fire everything
+	for gun in helo.get_node("guns").get_children():
+		if(!is_instance_valid(gun)):
+			break
+		var Bullet = preload("res://actors/Bullet.tscn")
+		var b = Bullet.instance()
+		add_child(b)
+		play_sound(b.position,"m2")
+		b.start(gun.global_transform)
+		yield(get_tree().create_timer(0.2), "timeout")		
+	
+func threat_clicked(id):
+	var threat=instance_from_id(id)
+	if(target==threat):
+		return
+	target=threat
 	# set reticle
 	$reticle.show()
 	if($lblInstructions.visible):
 		$lblInstructions.hide()
-	$reticle.target=missile
-	$AnswerPanel.set_question_answers(questions,missile.questionIndex)
+	$reticle.target=threat
+	$AnswerPanel.set_question_answers(questions,threat.questionIndex)
 	
 func remove_target(target):
 	if(is_instance_valid(target)):
@@ -127,13 +177,25 @@ func play_sound(position,audio,volume=0):
 	new_node.play(0)
 
 func _process(delta):
-	pass
+	for threat in incoming:
+		if(!is_instance_valid(threat)):
+			continue
+		if threat.get_class()=="Hind":
+			if((threat.position.x<$Patriot2.position.x or
+			threat.position.x>$Patriot.position.x)):
+				threat.shooting=false
+				if(threat.shots<5):
+					threat.shots=5
+			else:
+				threat.shooting=true
+				threat.begin_shoot=floor(randi()%50)
 	#if(pendingQuestions.size()>0 and $AnswerPanel.question==-1):
 	#	$AnswerPanel.set_question_answers(questions,pendingQuestions.front()[0])
 	
 func game_over():
 	$AudioStreamPlayer.stop()
 	$MissileTimer.stop()
+	$reticle.hide()
 	# this is a dumb way to do it but w/e
 	for eny in incoming:
 		if(is_instance_valid(eny)):
@@ -144,10 +206,12 @@ func game_over():
 	
 
 func _on_StartTimer_timeout():
+	
 	print("start missile timer")
 	$MissileTimer.start()
 
 func _on_MissileTimer_timeout():
+	
 	cycles+=1
 	$MissileTimer.wait_time=clamp($MissileTimer.wait_time-(cycles/40),2,100)
 	get_question()
@@ -182,6 +246,8 @@ func engage():
 
 
 func _on_Player_launcher_reached(launcher):
+	if($Player.shocked):
+		return
 	# fire at first target
 	if(targets.size()>0):
 		play_sound(launcher.position,"launch",-0.8)
@@ -221,6 +287,18 @@ func _on_AnswerPanel_correct_response(ID):
 		engage()
 	$AnswerPanel.clear_buttons()
 
+func _on_AnswerPanel_bad_response():
+	if(!$Threat.visible):
+		$Threat.show()
+	$Threat.value+=1
+	play_sound($Player.position,"oof")
+	# bad
+	if($Threat.value==$Threat.max_value):
+		launch_ABT(floor(randi()%questions.size()))
+		$Threat.value=0
+		play_sound($heloEast.position,"alert",1)
+		$Threat.hide()
+		
 
 func _on_locAudio_finished():
 	pass # Replace with function body.
@@ -232,3 +310,6 @@ func _on_btnRestart_pressed():
 
 func _on_btnMenu_pressed():
 	get_tree().change_scene("res://MainMenu.tscn")	
+
+
+

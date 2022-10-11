@@ -1,0 +1,78 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://art/hind3.png" type="Texture" id=1]
+[ext_resource path="res://art/hind2.png" type="Texture" id=2]
+[ext_resource path="res://art/hind1.png" type="Texture" id=3]
+[ext_resource path="res://scripts/Hind.gd" type="Script" id=4]
+[ext_resource path="res://art/splode/splode 08.png" type="Texture" id=5]
+[ext_resource path="res://art/splode/splode 15.png" type="Texture" id=6]
+[ext_resource path="res://art/splode/splode 16.png" type="Texture" id=7]
+[ext_resource path="res://art/splode/splode 14.png" type="Texture" id=8]
+[ext_resource path="res://art/splode/splode 09.png" type="Texture" id=9]
+[ext_resource path="res://art/splode/splode 11.png" type="Texture" id=10]
+[ext_resource path="res://art/splode/splode 13.png" type="Texture" id=11]
+[ext_resource path="res://art/splode/splode 12.png" type="Texture" id=12]
+[ext_resource path="res://art/splode/splode 10.png" type="Texture" id=13]
+[ext_resource path="res://fonts/BerlinDemi.tres" type="DynamicFont" id=14]
+[ext_resource path="res://scripts/labelHolder.gd" type="Script" id=15]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 9 ), ExtResource( 13 ), ExtResource( 10 ), ExtResource( 12 ), ExtResource( 11 ), ExtResource( 8 ), ExtResource( 6 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "explode",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "flying",
+"speed": 10.0
+} ]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 48.0
+
+[node name="Hind" type="KinematicBody2D"]
+collision_layer = 512
+collision_mask = 0
+input_pickable = true
+script = ExtResource( 4 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 8, -16 )
+scale = Vector2( 0.169337, 0.169337 )
+frames = SubResource( 1 )
+animation = "flying"
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 10, 0 )
+shape = SubResource( 2 )
+
+[node name="labelHolder" type="Node2D" parent="."]
+position = Vector2( 3, 0 )
+script = ExtResource( 15 )
+
+[node name="lblQuery" type="Label" parent="labelHolder"]
+margin_left = 14.0
+margin_top = -3.0
+margin_right = 83.0
+margin_bottom = 36.0
+custom_fonts/font = ExtResource( 14 )
+uppercase = true
+
+[node name="guns" type="Node2D" parent="."]
+
+[node name="gun2" type="Node2D" parent="guns"]
+position = Vector2( 17, 5 )
+
+[node name="gun" type="Node2D" parent="guns"]
+position = Vector2( -3, 5 )
+
+[connection signal="input_event" from="." to="." method="_on_Hind_input_event"]
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]

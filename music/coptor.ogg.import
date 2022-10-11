@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/coptor.ogg-d46d4c0d3da51b538dc1176269d3feac.oggstr"
+
+[deps]
+
+source_file="res://music/coptor.ogg"
+dest_files=[ "res://.import/coptor.ogg-d46d4c0d3da51b538dc1176269d3feac.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

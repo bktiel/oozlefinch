@@ -1,11 +1,20 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://art/oozle.png" type="Texture" id=1]
 [ext_resource path="res://art/oozle_walk.png" type="Texture" id=2]
 [ext_resource path="res://scripts/Player.gd" type="Script" id=3]
+[ext_resource path="res://art/oozle_shock_1.png" type="Texture" id=4]
+[ext_resource path="res://art/oozle_shock_3.png" type="Texture" id=5]
+[ext_resource path="res://art/oozle_shock_2.png" type="Texture" id=6]
+[ext_resource path="res://art/oozle_shock_4.png" type="Texture" id=7]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 6 ), ExtResource( 5 ), ExtResource( 7 ) ],
+"loop": false,
+"name": "shock",
+"speed": 15.0
+}, {
 "frames": [ ExtResource( 1 ), ExtResource( 2 ) ],
 "loop": true,
 "name": "walk",
@@ -30,3 +39,9 @@ position = Vector2( 0, -12 )
 shape = SubResource( 2 )
 
 [node name="Node2D" type="Node2D" parent="."]
+
+[node name="ShockTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="timeout" from="ShockTimer" to="." method="_on_ShockTimer_timeout"]
