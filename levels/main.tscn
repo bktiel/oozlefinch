@@ -25,12 +25,6 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 511.5, 34.5 )
 
-[sub_resource type="DynamicFont" id=9]
-size = 19
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 19 )
-
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0, 0, 0, 1 )
 border_width_left = 3
@@ -79,6 +73,12 @@ corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
+
+[sub_resource type="DynamicFont" id=9]
+size = 19
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 19 )
 
 [sub_resource type="DynamicFont" id=8]
 size = 30
@@ -160,7 +160,80 @@ position = Vector2( 108, -29 )
 [node name="East" type="Node2D" parent="."]
 position = Vector2( 951, -31 )
 
-[node name="lblScoreLabel" type="Label" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[node name="locAudio" type="AudioStreamPlayer2D" parent="."]
+
+[node name="heloShootRef" type="Node2D" parent="."]
+position = Vector2( 511, 648 )
+
+[node name="GUI" type="CanvasLayer" parent="."]
+
+[node name="AnswerPanel" type="Panel" parent="GUI"]
+margin_left = 200.0
+margin_top = 584.0
+margin_right = 854.0
+margin_bottom = 712.0
+custom_styles/panel = SubResource( 4 )
+script = ExtResource( 4 )
+
+[node name="lblAnswer1" type="Button" parent="GUI/AnswerPanel"]
+material = SubResource( 3 )
+margin_left = 136.0
+margin_top = 16.0
+margin_right = 464.0
+margin_bottom = 36.0
+toggle_mode = true
+text = "..."
+
+[node name="lblAnswer2" type="Button" parent="GUI/AnswerPanel"]
+material = SubResource( 3 )
+margin_left = 136.0
+margin_top = 40.0
+margin_right = 464.0
+margin_bottom = 60.0
+toggle_mode = true
+text = "..."
+
+[node name="lblAnswer3" type="Button" parent="GUI/AnswerPanel"]
+material = SubResource( 3 )
+margin_left = 136.0
+margin_top = 64.0
+margin_right = 464.0
+margin_bottom = 84.0
+toggle_mode = true
+text = "..."
+
+[node name="lblAnswer4" type="Button" parent="GUI/AnswerPanel"]
+material = SubResource( 3 )
+margin_left = 136.0
+margin_top = 88.0
+margin_right = 464.0
+margin_bottom = 111.0
+toggle_mode = true
+text = "..."
+
+[node name="btnEngage" type="Button" parent="GUI/AnswerPanel"]
+margin_left = 520.0
+margin_top = 16.0
+margin_right = 630.0
+margin_bottom = 112.0
+custom_fonts/font = ExtResource( 8 )
+custom_styles/hover = SubResource( 7 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/normal = SubResource( 5 )
+text = "ENGAGE"
+
+[node name="lblPrompt" type="Label" parent="GUI/AnswerPanel"]
+margin_left = 48.0
+margin_top = 48.0
+margin_right = 88.0
+margin_bottom = 62.0
+align = 1
+uppercase = true
+
+[node name="lblScoreLabel" type="Label" parent="GUI"]
 visible = false
 margin_left = 817.0
 margin_top = 306.0
@@ -172,7 +245,7 @@ text = "Intercepts"
 align = 1
 uppercase = true
 
-[node name="lblScore" type="Label" parent="lblScoreLabel"]
+[node name="lblScore" type="Label" parent="GUI/lblScoreLabel"]
 margin_left = -4.0
 margin_top = 23.0
 margin_right = 136.0
@@ -182,7 +255,7 @@ text = "0"
 align = 1
 uppercase = true
 
-[node name="CityHealth" type="TextureProgress" parent="."]
+[node name="CityHealth" type="TextureProgress" parent="GUI"]
 margin_left = 412.0
 margin_top = 261.0
 margin_right = 612.0
@@ -191,7 +264,7 @@ max_value = 6.0
 texture_under = ExtResource( 17 )
 texture_progress = ExtResource( 18 )
 
-[node name="lblCityHealth" type="TextureRect" parent="CityHealth"]
+[node name="lblCityHealth" type="TextureRect" parent="GUI/CityHealth"]
 margin_left = 35.0
 margin_top = -22.0
 margin_right = 282.0
@@ -199,7 +272,7 @@ margin_bottom = 46.0
 rect_scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 13 )
 
-[node name="Threat" type="TextureProgress" parent="."]
+[node name="Threat" type="TextureProgress" parent="GUI"]
 visible = false
 margin_left = 40.0
 margin_top = 314.0
@@ -210,7 +283,7 @@ max_value = 6.0
 texture_under = ExtResource( 17 )
 texture_progress = ExtResource( 21 )
 
-[node name="lblThreat" type="Label" parent="Threat"]
+[node name="lblThreat" type="Label" parent="GUI/Threat"]
 margin_left = 56.0
 margin_top = -15.0
 margin_right = 146.0
@@ -220,73 +293,10 @@ text = "threat"
 align = 1
 uppercase = true
 
-[node name="AnswerPanel" type="Panel" parent="."]
-margin_left = 200.0
-margin_top = 584.0
-margin_right = 854.0
-margin_bottom = 712.0
-custom_styles/panel = SubResource( 4 )
-script = ExtResource( 4 )
-
-[node name="lblAnswer1" type="Button" parent="AnswerPanel"]
-material = SubResource( 3 )
-margin_left = 136.0
-margin_top = 16.0
-margin_right = 464.0
-margin_bottom = 36.0
-toggle_mode = true
-text = "..."
-
-[node name="lblAnswer2" type="Button" parent="AnswerPanel"]
-material = SubResource( 3 )
-margin_left = 136.0
-margin_top = 40.0
-margin_right = 464.0
-margin_bottom = 60.0
-toggle_mode = true
-text = "..."
-
-[node name="lblAnswer3" type="Button" parent="AnswerPanel"]
-material = SubResource( 3 )
-margin_left = 136.0
-margin_top = 64.0
-margin_right = 464.0
-margin_bottom = 84.0
-toggle_mode = true
-text = "..."
-
-[node name="lblAnswer4" type="Button" parent="AnswerPanel"]
-material = SubResource( 3 )
-margin_left = 136.0
-margin_top = 88.0
-margin_right = 464.0
-margin_bottom = 111.0
-toggle_mode = true
-text = "..."
-
-[node name="btnEngage" type="Button" parent="AnswerPanel"]
-margin_left = 520.0
-margin_top = 16.0
-margin_right = 630.0
-margin_bottom = 112.0
-custom_fonts/font = ExtResource( 8 )
-custom_styles/hover = SubResource( 7 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/normal = SubResource( 5 )
-text = "ENGAGE"
-
-[node name="lblPrompt" type="Label" parent="AnswerPanel"]
-margin_left = 48.0
-margin_top = 48.0
-margin_right = 88.0
-margin_bottom = 62.0
-align = 1
-uppercase = true
-
-[node name="reticle" type="CanvasLayer" parent="."]
+[node name="reticle" type="CanvasLayer" parent="GUI"]
 script = ExtResource( 5 )
 
-[node name="txtReticle" type="TextureRect" parent="reticle"]
+[node name="txtReticle" type="TextureRect" parent="GUI/reticle"]
 visible = false
 margin_left = 1112.0
 margin_top = 216.0
@@ -294,7 +304,7 @@ margin_right = 1176.0
 margin_bottom = 280.0
 texture = ExtResource( 14 )
 
-[node name="filter" type="TextureRect" parent="."]
+[node name="filter" type="TextureRect" parent="GUI"]
 visible = false
 margin_left = -14.0
 margin_top = -14.0
@@ -304,7 +314,7 @@ mouse_filter = 2
 texture = ExtResource( 15 )
 expand = true
 
-[node name="damagefilter" type="TextureRect" parent="."]
+[node name="damagefilter" type="TextureRect" parent="GUI"]
 visible = false
 margin_left = -14.0
 margin_top = -14.0
@@ -314,12 +324,7 @@ mouse_filter = 2
 texture = ExtResource( 7 )
 expand = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 3 )
-
-[node name="locAudio" type="AudioStreamPlayer2D" parent="."]
-
-[node name="panGameOver" type="Panel" parent="."]
+[node name="panGameOver" type="Panel" parent="GUI"]
 visible = false
 margin_left = 312.0
 margin_top = 48.0
@@ -327,63 +332,60 @@ margin_right = 688.0
 margin_bottom = 240.0
 theme = ExtResource( 2 )
 
-[node name="Label" type="Label" parent="panGameOver"]
+[node name="Label" type="Label" parent="GUI/panGameOver"]
 margin_left = 136.0
 margin_top = 16.0
 margin_right = 231.0
 margin_bottom = 44.0
 text = "FAILURE"
 
-[node name="Label2" type="Label" parent="panGameOver"]
+[node name="Label2" type="Label" parent="GUI/panGameOver"]
 margin_left = 40.0
 margin_top = 88.0
 margin_right = 185.0
 margin_bottom = 116.0
 text = "Intercepts:"
 
-[node name="Label3" type="Label" parent="panGameOver"]
+[node name="Label3" type="Label" parent="GUI/panGameOver"]
 margin_left = 40.0
 margin_top = 56.0
 margin_right = 185.0
 margin_bottom = 84.0
 text = "Difficulty:"
 
-[node name="lblDifficulty" type="Label" parent="panGameOver"]
+[node name="lblDifficulty" type="Label" parent="GUI/panGameOver"]
 margin_left = 240.0
 margin_top = 56.0
 margin_right = 280.0
 margin_bottom = 84.0
 
-[node name="lblScore" type="Label" parent="panGameOver"]
+[node name="lblScore" type="Label" parent="GUI/panGameOver"]
 margin_left = 240.0
 margin_top = 88.0
 margin_right = 280.0
 margin_bottom = 116.0
 
-[node name="btnRestart" type="Button" parent="panGameOver"]
+[node name="btnRestart" type="Button" parent="GUI/panGameOver"]
 margin_left = 24.0
 margin_top = 136.0
 margin_right = 176.0
 margin_bottom = 170.0
 text = "Restart"
 
-[node name="btnMenu" type="Button" parent="panGameOver"]
+[node name="btnMenu" type="Button" parent="GUI/panGameOver"]
 margin_left = 192.0
 margin_top = 136.0
 margin_right = 344.0
 margin_bottom = 170.0
 text = "Menu"
 
-[node name="lblInstructions" type="Label" parent="."]
+[node name="lblInstructions" type="Label" parent="GUI"]
 margin_left = 168.0
 margin_top = 144.0
-margin_right = 825.0
+margin_right = 866.0
 margin_bottom = 179.0
 custom_fonts/font = SubResource( 8 )
 text = "Protect the city by clicking on and engaging targets!"
-
-[node name="heloShootRef" type="Node2D" parent="."]
-position = Vector2( 511, 648 )
 
 [connection signal="city_damaged" from="City1" to="." method="_on_City1_city_damaged"]
 [connection signal="city_destroyed" from="City1" to="." method="_on_City1_city_destroyed"]
@@ -392,12 +394,12 @@ position = Vector2( 511, 648 )
 [connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
 [connection signal="fire_missile" from="Patriot" to="." method="_on_Patriot_fire_missile"]
 [connection signal="fire_missile" from="Patriot2" to="." method="_on_Patriot_fire_missile"]
-[connection signal="bad_response" from="AnswerPanel" to="." method="_on_AnswerPanel_bad_response"]
-[connection signal="correct_response" from="AnswerPanel" to="." method="_on_AnswerPanel_correct_response"]
-[connection signal="pressed" from="AnswerPanel/lblAnswer1" to="AnswerPanel" method="_on_lblAnswer1_pressed"]
-[connection signal="pressed" from="AnswerPanel/lblAnswer2" to="AnswerPanel" method="_on_lblAnswer2_pressed"]
-[connection signal="pressed" from="AnswerPanel/lblAnswer3" to="AnswerPanel" method="_on_lblAnswer3_pressed"]
-[connection signal="pressed" from="AnswerPanel/lblAnswer4" to="AnswerPanel" method="_on_lblAnswer4_pressed"]
-[connection signal="pressed" from="AnswerPanel/btnEngage" to="AnswerPanel" method="_on_btnEngage_pressed"]
-[connection signal="pressed" from="panGameOver/btnRestart" to="." method="_on_btnRestart_pressed"]
-[connection signal="pressed" from="panGameOver/btnMenu" to="." method="_on_btnMenu_pressed"]
+[connection signal="bad_response" from="GUI/AnswerPanel" to="." method="_on_AnswerPanel_bad_response"]
+[connection signal="correct_response" from="GUI/AnswerPanel" to="." method="_on_AnswerPanel_correct_response"]
+[connection signal="pressed" from="GUI/AnswerPanel/lblAnswer1" to="GUI/AnswerPanel" method="_on_lblAnswer1_pressed"]
+[connection signal="pressed" from="GUI/AnswerPanel/lblAnswer2" to="GUI/AnswerPanel" method="_on_lblAnswer2_pressed"]
+[connection signal="pressed" from="GUI/AnswerPanel/lblAnswer3" to="GUI/AnswerPanel" method="_on_lblAnswer3_pressed"]
+[connection signal="pressed" from="GUI/AnswerPanel/lblAnswer4" to="GUI/AnswerPanel" method="_on_lblAnswer4_pressed"]
+[connection signal="pressed" from="GUI/AnswerPanel/btnEngage" to="GUI/AnswerPanel" method="_on_btnEngage_pressed"]
+[connection signal="pressed" from="GUI/panGameOver/btnRestart" to="." method="_on_btnRestart_pressed"]
+[connection signal="pressed" from="GUI/panGameOver/btnMenu" to="." method="_on_btnMenu_pressed"]

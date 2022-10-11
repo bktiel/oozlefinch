@@ -27,20 +27,20 @@ func _ready():
 
 func new_game():
 	randomize()
-	$filter.hide()
-	$panGameOver.hide()
+	$GUI/filter.hide()
+	$GUI/panGameOver.hide()
 	$MissileTimer.wait_time-=difficulty
 	if(difficulty==2):
-		$Threat.max_value=4
+		$GUI/Threat.max_value=4
 	# reset vars
 	incoming=[]
 	targets=[]
 	target=null
 	score=0
 	cycles=0
-	$CityHealth.max_value-=difficulty
-	$City1.health=$CityHealth.max_value
-	$CityHealth.value=$CityHealth.max_value
+	$GUI/CityHealth.max_value-=difficulty
+	$City1.health=$GUI/CityHealth.max_value
+	$GUI/CityHealth.value=$GUI/CityHealth.max_value
 	$Player.start($playerStart.position)
 	
 
@@ -166,20 +166,20 @@ func threat_clicked(id):
 		return
 	target=threat
 	# set reticle
-	$reticle.show()
-	if($lblInstructions.visible):
-		$lblInstructions.hide()
-	$reticle.target=threat
-	$AnswerPanel.set_question_answers(questions,threat.questionIndex)
+	$GUI/reticle.show()
+	if($GUI/lblInstructions.visible):
+		$GUI/lblInstructions.hide()
+	$GUI/reticle.target=threat
+	$GUI/AnswerPanel.set_question_answers(questions,threat.questionIndex)
 	
 func remove_target(target):
 	if(is_instance_valid(target)):
 		incoming.erase(target)
 		# play sound
 		play_sound(target.position,"explode")
-		if($reticle.target==target):
-			$reticle.target=null
-			$reticle.hide()
+		if($GUI/reticle.target==target):
+			$GUI/reticle.target=null
+			$GUI/reticle.hide()
 	
 func play_sound(position,audio,volume=0):
 	var new_node=AudioStreamPlayer2D.new()
@@ -192,8 +192,8 @@ func play_sound(position,audio,volume=0):
 	new_node.play(0)
 
 func _process(delta):
-	if(!is_instance_valid($reticle.target)):
-		$AnswerPanel.clear_buttons()
+	if(!is_instance_valid($GUI/reticle.target)):
+		$GUI/AnswerPanel.clear_buttons()
 	for threat in incoming:
 		if(!is_instance_valid(threat)):
 			continue
@@ -212,14 +212,14 @@ func _process(delta):
 func game_over():
 	$AudioStreamPlayer.stop()
 	$MissileTimer.stop()
-	$reticle.hide()
+	$GUI/reticle.hide()
 	# this is a dumb way to do it but w/e
 	for eny in incoming:
 		if(is_instance_valid(eny)):
 			eny.queue_free()
-	$panGameOver.show()
-	$panGameOver/lblScore.text=str(score)
-	$panGameOver/lblDifficulty.text=get_node("/root/Global").difficultyString
+	$GUI/panGameOver.show()
+	$GUI/panGameOver/lblScore.text=str(score)
+	$GUI/panGameOver/lblDifficulty.text=get_node("/root/Global").difficultyString
 	
 
 func _on_StartTimer_timeout():
@@ -281,22 +281,22 @@ func _on_Player_launcher_reached(launcher):
 # city damaged, update HP
 func _on_City1_city_damaged():
 	# show filter
-	$damagefilter.show()
+	$GUI/damagefilter.show()
 	position.y-=10
 	play_sound($City1.position,"explode")
-	$CityHealth.value-=1
+	$GUI/CityHealth.value-=1
 	yield(get_tree().create_timer(0.15), "timeout")
 	position.y+=10
-	$damagefilter.hide()
+	$GUI/damagefilter.hide()
 	
 	if $City1.health<1:
-		$CityHealth.hide()
-		$filter.show()
+		$GUI/CityHealth.hide()
+		$GUI/filter.show()
 		game_over()
 
 func update_score(newScore):
 	score=newScore
-	$lblScoreLabel/lblScore.text="%d"%score
+	$GUI/lblScoreLabel/lblScore.text="%d"%score
 
 func _on_City1_city_destroyed():
 	pass
@@ -311,19 +311,19 @@ func _on_AnswerPanel_correct_response(ID):
 	if(is_instance_valid(target)):
 		targets.append(target)
 		engage()
-	$AnswerPanel.clear_buttons()
+	$GUI/AnswerPanel.clear_buttons()
 
 func _on_AnswerPanel_bad_response():
-	if(!$Threat.visible):
-		$Threat.show()
-	$Threat.value+=1
+	if(!$GUI/Threat.visible):
+		$GUI/Threat.show()
+	$GUI/Threat.value+=1
 	play_sound($Player.position,"oof")
 	# bad
-	if($Threat.value==$Threat.max_value):
+	if($GUI/Threat.value==$GUI/Threat.max_value):
 		launch_ABT(floor(randi()%questions.size()))
-		$Threat.value=0
+		$GUI/Threat.value=0
 		play_sound($heloEast.position,"alert",1)
-		$Threat.hide()
+		$GUI/Threat.hide()
 		
 
 func _on_locAudio_finished():
@@ -339,8 +339,8 @@ func _on_btnMenu_pressed():
 
 
 func handle_interception():
-	if(!$lblScoreLabel.visible):
-		$lblScoreLabel.show()
+	if(!$GUI/lblScoreLabel.visible):
+		$GUI/lblScoreLabel.show()
 	update_score(score+1)
 
 
