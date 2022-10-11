@@ -59,8 +59,10 @@ collision_mask = 2
 script = ExtResource( 2 )
 
 [node name="City1Collision" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( -1, 19 )
 shape = SubResource( 1 )
+disabled = true
 
 [node name="City1Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
@@ -71,5 +73,9 @@ position = Vector2( 6.99999, -129 )
 scale = Vector2( 4.2775, 3.70829 )
 frames = SubResource( 3 )
 animation = "explosion"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2( 49.0878, 24.6787 )
+polygon = PoolVector2Array( -9.16725, 9.60343, -7.80235, 4.61937, -6.96711, -1.49927, -4.97068, 3.84948, -3.54467, 0.364687, -2.24088, 3.56583, -1.30379, -7.41531, -0.48892, 1.90448, 1.24267, 0.445729, 2.22051, -4.01156, 2.95389, 4.29521, 3.70764, 4.8625, 5.27626, -0.364687, 8.02643, 9.68447 )
 
 [connection signal="animation_finished" from="City1Explosion" to="." method="_on_City1Explosion_animation_finished"]

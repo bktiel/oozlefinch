@@ -2,6 +2,8 @@ extends Area2D
 
 export var speed = 350
 
+signal intercepted()
+
 var velocity = Vector2.ZERO
 var acceleration = Vector2.ZERO
 var target
@@ -44,6 +46,7 @@ func _on_PatriotMissile_body_entered(body):
 		if(body.dead):
 			return
 		if(body.pursuer==self):
+			emit_signal("intercepted")			
 			set_physics_process(false)
 			hide()
 			body._on_Missile_body_entered(self)
@@ -51,6 +54,7 @@ func _on_PatriotMissile_body_entered(body):
 		if(body.dead):
 			return
 		if(body.pursuer==self):
+			emit_signal("intercepted")
 			set_physics_process(false)
 			hide()
 			body.destroyed_by(self)

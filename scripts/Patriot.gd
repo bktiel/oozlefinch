@@ -6,10 +6,7 @@ export (LAUNCHER_ORIENTATION) var direction = LAUNCHER_ORIENTATION.left
 
 export(PackedScene) var projectile
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
+signal fire_missile(launcher)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,13 +16,7 @@ func _ready():
 		$AnimatedSprite.play("left")
 
 func fire(target):
-	var missile=projectile.instance()
-	add_child(missile)
-	
-	if(direction==LAUNCHER_ORIENTATION.left):
-		missile.start($LaunchPointLeft.get_global_transform(),target)
-	else:
-		missile.start($LaunchPointRight.get_global_transform(),target)
+	emit_signal("fire_missile",self)
 		
 
 func get_class(): return "Patriot"

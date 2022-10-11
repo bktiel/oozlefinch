@@ -11,16 +11,9 @@ var cycles=0
 
 var incoming = []
 var questions = []
-#var pendingQuestions=[]
-
 
 var target=null
 var targets=[]
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -42,14 +35,12 @@ func new_game():
 	target=null
 	score=0
 	cycles=0
-	$City1.health=5
-	$CityHealth.value=5
+	$CityHealth.max_value-=difficulty
+	$City1.health=$CityHealth.max_value
+	$CityHealth.value=$CityHealth.max_value
 	$Player.start($playerStart.position)
 	
-	#var altChance=ceil(randi()%3)
-	#if altChance<=1:
-	#	var stream=load("res://music/%s.ogg"%"funky")
-	#	$AudioStreamPlayer.set_stream(stream)
+
 	$AudioStreamPlayer.play(0)
 	print("starting timer")
 	questions=load_questions()
@@ -159,7 +150,6 @@ func threat_clicked(id):
 func remove_target(target):
 	if(is_instance_valid(target)):
 		incoming.erase(target)
-		score+=1
 		# play sound
 		play_sound(target.position,"explode")
 		if($reticle.target==target):
@@ -210,6 +200,7 @@ func game_over():
 func _on_StartTimer_timeout():
 	
 	print("start missile timer")
+	get_question()
 	$MissileTimer.start()
 
 func _on_MissileTimer_timeout():
@@ -278,6 +269,9 @@ func _on_City1_city_damaged():
 		$filter.show()
 		game_over()
 
+func update_score(newScore):
+	score=newScore
+	$lblScoreLabel/lblScore.text="%d"%score
 
 func _on_City1_city_destroyed():
 	pass
@@ -319,4 +313,19 @@ func _on_btnMenu_pressed():
 	get_tree().change_scene("res://MainMenu.tscn")	
 
 
+func handle_interception():
+	if(!$lblScoreLabel.visible):
+		$lblScoreLabel.show()
+	update_score(score+1)
 
+
+func _on_Patriot_fire_missile(launcher):
+	var missile=launcher.projectile.instance()
+	launcher.add_child(missile)
+	# events
+	missile.connect("intercepted",self,"handle_interception")
+	
+	if(launcher.direction==launcher.LAUNCHER_ORIENTATION.left):
+		missile.start(launcher.get_node("LaunchPointLeft").get_global_transform(),target)
+	else:
+		missile.start(launcher.get_node("LaunchPointRight").get_global_transform(),target)
