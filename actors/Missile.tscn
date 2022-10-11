@@ -32,7 +32,8 @@
 [ext_resource path="res://fonts/BerlinDemi.tres" type="DynamicFont" id=30]
 
 [sub_resource type="CapsuleShape2D" id=1]
-height = 26.0
+radius = 8.0
+height = 40.0
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -59,6 +60,7 @@ script = ExtResource( 28 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 4 )
+scale = Vector2( 1.3027, 1 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

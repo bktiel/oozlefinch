@@ -12,6 +12,9 @@ var cycles=0
 var incoming = []
 var questions = []
 
+# stores repetition
+var usedQuestionIndices=[]
+
 var target=null
 var targets=[]
 
@@ -44,14 +47,36 @@ func new_game():
 	$AudioStreamPlayer.play(0)
 	print("starting timer")
 	questions=load_questions()
+	for i in range(questions.size()):
+		usedQuestionIndices.push_back(0)
 	$StartTimer.start()
 	
+# return indices of array that contain value
+func get_indices_with_value(arr,value):
+	var ret=[]
+	for i in arr.size():
+		if arr[i]==value:
+			ret.push_back(i)
+	return ret
+			
 	
 func get_question():
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
-	var questionIndex=floor(rng.randf_range(0,questions.size()))
-	#print(questions[questionIndex][0],questions[questionIndex][1])	
+	
+	var questionIndex=null
+	print(usedQuestionIndices)
+	
+	var desiredUsageCount=0	
+	while(questionIndex==null):
+		var validIndices=get_indices_with_value(usedQuestionIndices,desiredUsageCount)
+		if validIndices.size()<1:
+			desiredUsageCount+=1
+			continue
+		# otherwise have a selection
+		questionIndex=validIndices[floor(rng.randf_range(0,validIndices.size()))]
+	# update
+	usedQuestionIndices[questionIndex]+=1
 	var question=questions[questionIndex]
 	var missile=launch_TBM(questionIndex)
 	#pendingQuestions.append([questionIndex,missile])
