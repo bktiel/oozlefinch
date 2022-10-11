@@ -177,6 +177,8 @@ func play_sound(position,audio,volume=0):
 	new_node.play(0)
 
 func _process(delta):
+	if(!is_instance_valid($reticle.target)):
+		$AnswerPanel.clear_buttons()
 	for threat in incoming:
 		if(!is_instance_valid(threat)):
 			continue
