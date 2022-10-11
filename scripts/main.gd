@@ -39,6 +39,7 @@ func new_game():
 	score=0
 	cycles=0
 	$GUI/CityHealth.max_value-=difficulty
+	#print($GUI/CityHealth.max_value)
 	$City1.health=$GUI/CityHealth.max_value
 	$GUI/CityHealth.value=$GUI/CityHealth.max_value
 	$Player.start($playerStart.position)
@@ -65,7 +66,7 @@ func get_question():
 	rng.randomize()
 	
 	var questionIndex=null
-	print(usedQuestionIndices)
+	#print(usedQuestionIndices)
 	
 	var desiredUsageCount=0	
 	while(questionIndex==null):
@@ -317,7 +318,7 @@ func _on_AnswerPanel_bad_response():
 	if(!$GUI/Threat.visible):
 		$GUI/Threat.show()
 	$GUI/Threat.value+=1
-	play_sound($Player.position,"oof")
+	play_sound($City1.position,"oof",1)
 	# bad
 	if($GUI/Threat.value==$GUI/Threat.max_value):
 		launch_ABT(floor(randi()%questions.size()))

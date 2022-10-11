@@ -29,7 +29,7 @@ func set_question_answers(array,row_index):
 	# set prompt
 	$lblPrompt.text=array[row_index][0]
 	# set correct answer
-	correct=floor(randi()%4)
+	correct=floor(randi()%3)
 	print(correct)
 	question=row_index
 	var labels=get_children()
