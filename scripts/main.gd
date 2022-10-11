@@ -159,7 +159,7 @@ func threat_clicked(id):
 func remove_target(target):
 	if(is_instance_valid(target)):
 		incoming.erase(target)
-		score+=1		
+		score+=1
 		# play sound
 		play_sound(target.position,"explode")
 		if($reticle.target==target):
@@ -253,9 +253,14 @@ func _on_Player_launcher_reached(launcher):
 	# fire at first target
 	if(targets.size()>0):
 		play_sound(launcher.position,"launch",-0.8)
-		launcher.fire(targets.front())
-		targets.remove(0)
-		$Player.firing=false
+		var target=targets.front()
+		if(is_instance_valid(target)):
+			launcher.fire(target)
+		targets.erase(target)
+		if(targets.empty()):
+			$Player.firing=false
+		else:
+			engage()
 
 # city damaged, update HP
 func _on_City1_city_damaged():

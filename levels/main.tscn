@@ -112,10 +112,10 @@ position = Vector2( 513, 360 )
 scale = Vector2( 0.25136, 0.25136 )
 
 [node name="heloEast" type="Node2D" parent="."]
-position = Vector2( 1088, 421 )
+position = Vector2( 1176, 421 )
 
 [node name="heloWest" type="Node2D" parent="."]
-position = Vector2( -64, 421 )
+position = Vector2( -128, 421 )
 
 [node name="Player" parent="." instance=ExtResource( 10 )]
 position = Vector2( 375, 489 )
