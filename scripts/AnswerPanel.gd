@@ -31,19 +31,23 @@ func set_question_answers(array,row_index):
 	# set correct answer
 	correct=floor(randi()%3)
 	print(correct)
-	question=row_index
+	question=int(row_index)
 	var labels=get_children()
-	used_answers.push_back(row_index)
+	used_answers.push_back(question)
+	print(used_answers)
 	# others
 	for i in range(4):
+		
 		if i==correct:
 			labels[i].text="%d) %s " % [i+1,array[row_index][1]]
 			continue
-		var falseAnswer=floor(randi()%array.size())
+		var falseAnswer=int(floor(randi()%array.size()))
 		while(used_answers.has(falseAnswer)):
 			randomize()
-			falseAnswer=floor(randi()%array.size())
+			falseAnswer=int(floor(randi()%array.size()))
+			print("new answer is %d" % falseAnswer)
 		used_answers.push_back(falseAnswer)
+		print(used_answers)
 		labels[i].text="%d) %s " % [i+1,array[falseAnswer][1]]
 
 func reset_buttons():

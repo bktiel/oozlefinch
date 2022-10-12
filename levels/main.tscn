@@ -21,7 +21,7 @@
 [ext_resource path="res://fonts/Berlin Sans FB Demi Bold.ttf" type="DynamicFontData" id=19]
 [ext_resource path="res://actors/Hind.tscn" type="PackedScene" id=20]
 [ext_resource path="res://art/threat_bar.png" type="Texture" id=21]
-[ext_resource path="res://fonts/calibri.ttf" type="DynamicFontData" id=22]
+[ext_resource path="res://fonts/verdana.ttf" type="DynamicFontData" id=22]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 511.5, 34.5 )
@@ -99,7 +99,6 @@ corner_radius_bottom_left = 20
 shadow_size = 7
 
 [sub_resource type="DynamicFont" id=13]
-size = 19
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
@@ -150,7 +149,7 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
 [sub_resource type="DynamicFont" id=9]
-size = 19
+size = 17
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 19 )
@@ -320,7 +319,6 @@ margin_left = 817.0
 margin_top = 306.0
 margin_right = 957.0
 margin_bottom = 334.0
-rect_scale = Vector2( 0.851558, 0.851558 )
 custom_fonts/font = SubResource( 9 )
 text = "Intercepts"
 align = 1
@@ -365,10 +363,11 @@ texture_under = ExtResource( 17 )
 texture_progress = ExtResource( 21 )
 
 [node name="lblThreat" type="Label" parent="GUI/Threat"]
-margin_left = 56.0
-margin_top = -15.0
-margin_right = 146.0
-margin_bottom = 13.0
+margin_left = 47.5153
+margin_top = -19.0061
+margin_right = 137.515
+margin_bottom = 8.99387
+rect_scale = Vector2( 1.12905, 1.12905 )
 custom_fonts/font = SubResource( 9 )
 text = "threat"
 align = 1
