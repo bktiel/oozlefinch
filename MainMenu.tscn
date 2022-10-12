@@ -34,18 +34,18 @@ margin_bottom = 504.0
 theme = ExtResource( 2 )
 
 [node name="btnNewGame" type="Button" parent="Panel"]
-margin_left = 96.0
-margin_top = 104.0
-margin_right = 392.0
-margin_bottom = 152.0
+margin_left = 85.0
+margin_top = 105.0
+margin_right = 413.0
+margin_bottom = 153.0
 theme = ExtResource( 2 )
 text = "NEW GAME"
 
 [node name="btnQuit" type="Button" parent="Panel"]
-margin_left = 96.0
-margin_top = 264.0
-margin_right = 392.0
-margin_bottom = 312.0
+margin_left = 88.0
+margin_top = 256.0
+margin_right = 414.0
+margin_bottom = 304.0
 theme = ExtResource( 2 )
 custom_fonts/font = ExtResource( 3 )
 text = "Exit"
@@ -60,20 +60,20 @@ texture = ExtResource( 1 )
 flip_h = true
 
 [node name="optDifficulty" type="OptionButton" parent="Panel"]
-margin_left = 104.0
+margin_left = 96.0
 margin_top = 176.0
-margin_right = 256.0
-margin_bottom = 210.0
+margin_right = 248.0
+margin_bottom = 216.0
 text = "Easy"
 align = 1
 items = [ "Easy", null, false, 0, null, "Medium", null, false, 1, null, "Hard", null, false, 2, null ]
 selected = 0
 
 [node name="optRand" type="CheckBox" parent="Panel"]
-margin_left = 264.0
+margin_left = 256.0
 margin_top = 176.0
-margin_right = 384.0
-margin_bottom = 210.0
+margin_right = 400.0
+margin_bottom = 216.0
 pressed = true
 text = "Random"
 align = 1

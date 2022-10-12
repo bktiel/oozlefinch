@@ -134,7 +134,7 @@ func launch_ABT(index=0):
 	helo.connect("reached_goal", self, "helo_reached_goal")
 	helo.connect("shoot", self, "helo_shoot")
 	helo.connect("explode", self, "remove_target")
-	add_child(helo)
+	$level.add_child(helo)
 	
 	for gun in helo.get_node("guns").get_children():
 		gun.look_at($level/heloShootRef.position)
