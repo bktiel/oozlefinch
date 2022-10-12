@@ -31,6 +31,7 @@ func _on_VisibilityNotifier2D_screen_exited():
 func _process(delta):
 	var direction=self.linear_velocity.angle()
 	if dead:
+		linear_velocity=Vector2.ZERO
 		$AnimatedSprite.rotation=0
 		self.rotation=0
 	else:
