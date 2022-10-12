@@ -492,6 +492,14 @@ margin_right = 176.0
 margin_bottom = 170.0
 text = "Restart"
 
+[node name="btnMenu" type="Button" parent="GUI/panGameOver"]
+margin_left = 201.0
+margin_top = 136.0
+margin_right = 353.0
+margin_bottom = 170.0
+theme = ExtResource( 2 )
+text = "Menu"
+
 [node name="lblPause" type="Label" parent="GUI"]
 visible = false
 margin_left = 168.0
@@ -532,5 +540,6 @@ text = "Menu"
 [connection signal="pressed" from="GUI/AnswerPanel/lblAnswer4" to="GUI/AnswerPanel" method="_on_lblAnswer4_pressed"]
 [connection signal="pressed" from="GUI/AnswerPanel/btnEngage" to="GUI/AnswerPanel" method="_on_btnEngage_pressed"]
 [connection signal="pressed" from="GUI/panGameOver/btnRestart" to="." method="_on_btnRestart_pressed"]
+[connection signal="pressed" from="GUI/panGameOver/btnMenu" to="." method="_on_btnMenu_pressed"]
 [connection signal="pressed" from="GUI/lblPause/btnRestart" to="GUI" method="_on_btnRestart_pressed"]
 [connection signal="pressed" from="GUI/lblPause/btnMenu" to="GUI" method="_on_btnMenu_pressed"]
