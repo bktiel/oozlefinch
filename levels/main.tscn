@@ -314,6 +314,7 @@ align = 1
 uppercase = true
 
 [node name="lblScoreLabel" type="Label" parent="GUI"]
+visible = false
 margin_left = 813.0
 margin_top = 299.0
 margin_right = 953.0
@@ -351,6 +352,7 @@ rect_scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 13 )
 
 [node name="Threat" type="TextureProgress" parent="GUI"]
+visible = false
 margin_left = 40.0
 margin_top = 314.0
 margin_right = 240.0
