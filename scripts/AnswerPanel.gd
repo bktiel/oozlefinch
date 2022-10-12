@@ -22,6 +22,7 @@ func _process(delta):
 		_on_lblAnswer4_pressed()
 
 
+
 func set_question_answers(array,row_index):
 	clear_buttons()
 	randomize()
@@ -59,26 +60,35 @@ func clear_buttons():
 	for i in range(4):
 		self.get_children()[i].pressed=false
 		self.get_children()[i].text="..."
+	$btnEngage.disabled=true	
+	
 			
 func _on_lblAnswer1_pressed():
 	reset_buttons()
 	$lblAnswer1.pressed=true	
 	selected=0
+	$btnEngage.disabled=false
 
 func _on_lblAnswer2_pressed():
 	reset_buttons()
 	$lblAnswer2.pressed=true	
 	selected=1
+	$btnEngage.disabled=false
+	
 
 func _on_lblAnswer3_pressed():
 	reset_buttons()
 	$lblAnswer3.pressed=true	
 	selected=2
+	$btnEngage.disabled=false
+	
 
 func _on_lblAnswer4_pressed():
 	reset_buttons()
 	$lblAnswer4.pressed=true	
 	selected=3
+	$btnEngage.disabled=false
+	
 
 
 func _on_btnEngage_pressed():

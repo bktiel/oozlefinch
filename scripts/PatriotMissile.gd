@@ -1,6 +1,6 @@
 extends Area2D
 
-export var speed = 350
+export var speed = 410
 
 signal intercepted()
 
@@ -33,7 +33,7 @@ func _physics_process(delta):
 	scale.x=clamp(scale.x-0.01,0.5,1)
 	scale.y=clamp(scale.y-0.01,0.5,1)
 	
-	velocity=Vector2(300,0).rotated(rotation)
+	velocity=Vector2(speed,0).rotated(rotation)
 	position += velocity * delta
 
 

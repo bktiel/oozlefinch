@@ -1,17 +1,15 @@
 extends Node2D
 
 
-var score=0
 var difficulty
 export(PackedScene) var missile_scene
 export(PackedScene) var helicopter_scene
 
-
+var paused=false
+var score=0
 var cycles=0
-
 var incoming = []
 var questions = []
-
 # stores repetition
 var usedQuestionIndices=[]
 
@@ -29,7 +27,7 @@ func new_game():
 	randomize()
 	$GUI/filter.hide()
 	$GUI/panGameOver.hide()
-	$MissileTimer.wait_time-=difficulty
+	$level/MissileTimer.wait_time-=difficulty
 	if(difficulty==2):
 		$GUI/Threat.max_value=4
 	# reset vars
@@ -40,17 +38,17 @@ func new_game():
 	cycles=0
 	$GUI/CityHealth.max_value-=difficulty
 	#print($GUI/CityHealth.max_value)
-	$City1.health=$GUI/CityHealth.max_value
+	$level/City1.health=$GUI/CityHealth.max_value
 	$GUI/CityHealth.value=$GUI/CityHealth.max_value
-	$Player.start($playerStart.position)
+	$level/Player.start($level/playerStart.position)
 	
 
-	$AudioStreamPlayer.play(0)
+	$level/AudioStreamPlayer.play(0)
 	print("starting timer")
 	questions=load_questions()
 	for i in range(questions.size()):
 		usedQuestionIndices.push_back(0)
-	$StartTimer.start()
+	$level/StartTimer.start()
 	
 # return indices of array that contain value
 func get_indices_with_value(arr,value):
@@ -93,14 +91,13 @@ func launch_TBM(index=0):
 	
 	missile.connect("clicked", self, "threat_clicked")
 	missile.connect("explode", self, "remove_target")
-	
 
 	if side<=1:
-		missile_location=$East.position
+		missile_location=$level/East.position
 		missile_location.x-=rand_range(1,50)
 		direction = 0+ (PI / 4)*1
 	else:
-		missile_location=$West.position
+		missile_location=$level/West.position
 		missile_location.x+=rand_range(1,50)
 		direction = 0 - (PI/4)*1
 	# set position
@@ -111,7 +108,7 @@ func launch_TBM(index=0):
 	#missile.linear_velocity = velocity.rotated(direction)
 	missile.set_applied_force(Vector2(0,0.08*(difficulty+1)+(0.1*cycles/100)).rotated(missile.rotation))
 	# add
-	add_child(missile)
+	$level.add_child(missile)
 	incoming.push_back(missile)
 	return missile
 	
@@ -120,9 +117,9 @@ func launch_ABT(index=0):
 	# set question
 	helo.questionIndex=index
 	
-	helo.transform=$heloEast.transform
+	helo.transform=$level/heloEast.transform
 	helo.scale=Vector2(0.6,0.6)
-	helo.goal_x=$heloWest.position.x
+	helo.goal_x=$level/heloWest.position.x
 	# set gun orientation
 	
 	helo.get_node("labelHolder").get_node("lblQuery").text=questions[index][0]
@@ -133,7 +130,7 @@ func launch_ABT(index=0):
 	add_child(helo)
 	
 	for gun in helo.get_node("guns").get_children():
-		gun.look_at($heloShootRef.position)
+		gun.look_at($level/heloShootRef.position)
 	incoming.push_back(helo)
 	return helo
 	
@@ -141,13 +138,13 @@ func launch_ABT(index=0):
 func helo_reached_goal(helo):
 	if(!is_instance_valid(helo)):
 		return
-	if(helo.goal_x==$heloEast.position.x):
-		helo.goal_x=$heloWest.position.x
+	if(helo.goal_x==$level/heloEast.position.x):
+		helo.goal_x=$level/heloWest.position.x
 	else:
-		helo.goal_x=$heloEast.position.x
+		helo.goal_x=$level/heloEast.position.x
 		
 	for gun in helo.get_node("guns").get_children():
-		gun.look_at($heloShootRef.position)
+		gun.look_at($level/heloShootRef.position)
 	
 func helo_shoot(helo):
 	# fire everything
@@ -199,21 +196,21 @@ func _process(delta):
 		if(!is_instance_valid(threat)):
 			continue
 		if threat.get_class()=="Hind":
-			if((threat.position.x<$Patriot2.position.x or
-			threat.position.x>$Patriot.position.x)):
+			if((threat.position.x<$level/Patriot2.position.x or
+			threat.position.x>$level/Patriot.position.x)):
 				threat.shooting=false
 				if(threat.shots<5):
 					threat.shots=5
 			else:
 				threat.shooting=true
 				threat.begin_shoot=floor(randi()%50)
-	#if(pendingQuestions.size()>0 and $AnswerPanel.question==-1):
-	#	$AnswerPanel.set_question_answers(questions,pendingQuestions.front()[0])
-	
+
+
+
 func game_over():
-	$AudioStreamPlayer.stop()
-	$MissileTimer.stop()
-	$GUI/reticle.hide()
+	$level/AudioStreamPlayer.stop()
+	$level/MissileTimer.stop()
+	$level/GUI/reticle.hide()
 	# this is a dumb way to do it but w/e
 	for eny in incoming:
 		if(is_instance_valid(eny)):
@@ -227,12 +224,12 @@ func _on_StartTimer_timeout():
 	
 	print("start missile timer")
 	get_question()
-	$MissileTimer.start()
+	$level/MissileTimer.start()
 
 func _on_MissileTimer_timeout():
 	
 	cycles+=1
-	$MissileTimer.wait_time=clamp($MissileTimer.wait_time-(cycles/40),2,100)
+	$level/MissileTimer.wait_time=clamp($level/MissileTimer.wait_time-(cycles/40),3,100)
 	get_question()
 	
 func load_questions():
@@ -252,20 +249,20 @@ func load_questions():
 func engage():
 	var side=randf()*5
 	if side<=1:
-		$Player.firing=true
+		$level/Player.firing=true
 	else:
-		if $Player.last_side==0:
-			$Player.goal_x=$Patriot2.position.x
-			$Player.last_side=1
+		if $level/Player.last_side==0:
+			$level/Player.goal_x=$level/Patriot2.position.x
+			$level/Player.last_side=1
 		else:
-			$Player.goal_x=$Patriot.position.x
-			$Player.last_side=0
-		$Player.firing=true
+			$level/Player.goal_x=$level/Patriot.position.x
+			$level/Player.last_side=0
+		$level/Player.firing=true
 		
 
 
 func _on_Player_launcher_reached(launcher):
-	if($Player.shocked):
+	if($level/Player.shocked):
 		return
 	# fire at first target
 	if(targets.size()>0):
@@ -275,7 +272,7 @@ func _on_Player_launcher_reached(launcher):
 			launcher.fire(target)
 		targets.erase(target)
 		if(targets.empty()):
-			$Player.firing=false
+			$level/Player.firing=false
 		else:
 			engage()
 
@@ -284,13 +281,13 @@ func _on_City1_city_damaged():
 	# show filter
 	$GUI/damagefilter.show()
 	position.y-=10
-	play_sound($City1.position,"explode")
+	play_sound($level/City1.position,"explode")
 	$GUI/CityHealth.value-=1
 	yield(get_tree().create_timer(0.15), "timeout")
 	position.y+=10
 	$GUI/damagefilter.hide()
 	
-	if $City1.health<1:
+	if $level/City1.health<1:
 		$GUI/CityHealth.hide()
 		$GUI/filter.show()
 		game_over()
@@ -318,12 +315,12 @@ func _on_AnswerPanel_bad_response():
 	if(!$GUI/Threat.visible):
 		$GUI/Threat.show()
 	$GUI/Threat.value+=1
-	play_sound($City1.position,"oof",1)
+	play_sound($level/City1.position,"oof",1)
 	# bad
 	if($GUI/Threat.value==$GUI/Threat.max_value):
 		launch_ABT(floor(randi()%questions.size()))
 		$GUI/Threat.value=0
-		play_sound($heloEast.position,"alert",1)
+		play_sound($level/heloEast.position,"alert",1)
 		$GUI/Threat.hide()
 		
 
