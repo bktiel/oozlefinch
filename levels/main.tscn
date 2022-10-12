@@ -245,6 +245,11 @@ scale = Vector2( 0.79874, 0.842877 )
 z_index = 2
 direction = 1
 
+[node name="SecretPatriot" parent="level" instance=ExtResource( 12 )]
+position = Vector2( 1722, 489 )
+scale = Vector2( 0.79874, 0.842877 )
+z_index = 2
+
 [node name="CityLoc" type="Node2D" parent="level"]
 position = Vector2( 511, 407 )
 scale = Vector2( 0.35, 0.35 )
@@ -518,6 +523,7 @@ text = "Menu"
 [connection signal="timeout" from="level/StartTimer" to="." method="_on_StartTimer_timeout"]
 [connection signal="fire_missile" from="level/Patriot" to="." method="_on_Patriot_fire_missile"]
 [connection signal="fire_missile" from="level/Patriot2" to="." method="_on_Patriot_fire_missile"]
+[connection signal="fire_missile" from="level/SecretPatriot" to="." method="_on_Patriot_fire_missile"]
 [connection signal="bad_response" from="GUI/AnswerPanel" to="." method="_on_AnswerPanel_bad_response"]
 [connection signal="correct_response" from="GUI/AnswerPanel" to="." method="_on_AnswerPanel_correct_response"]
 [connection signal="pressed" from="GUI/AnswerPanel/lblAnswer1" to="GUI/AnswerPanel" method="_on_lblAnswer1_pressed"]

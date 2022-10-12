@@ -19,3 +19,7 @@ func _on_btnNewGame_pressed():
 
 func _on_btnQuit_pressed():
 	get_tree().quit()
+
+
+func _on_optRand_toggled(button_pressed):
+	get_node("/root/Global").random=button_pressed

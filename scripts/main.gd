@@ -2,6 +2,8 @@ extends Node2D
 
 
 var difficulty
+var random=1
+var lastIndex=0
 export(PackedScene) var missile_scene
 export(PackedScene) var helicopter_scene
 
@@ -18,6 +20,7 @@ var targets=[]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	random=get_node("/root/Global").random
 	difficulty=get_node("/root/Global").difficulty
 	randomize()
 	print("new game")
@@ -60,22 +63,26 @@ func get_indices_with_value(arr,value):
 			
 	
 func get_question():
-	var rng = RandomNumberGenerator.new()
-	rng.randomize()
-	
-	var questionIndex=null
-	#print(usedQuestionIndices)
-	
-	var desiredUsageCount=0	
-	while(questionIndex==null):
-		var validIndices=get_indices_with_value(usedQuestionIndices,desiredUsageCount)
-		if validIndices.size()<1:
-			desiredUsageCount+=1
-			continue
-		# otherwise have a selection
-		questionIndex=validIndices[floor(rng.randf_range(0,validIndices.size()))]
-	# update
-	usedQuestionIndices[questionIndex]+=1
+	var questionIndex=null	
+	if(random):
+		var rng = RandomNumberGenerator.new()
+		rng.randomize()
+		
+		#print(usedQuestionIndices)
+		
+		var desiredUsageCount=0	
+		while(questionIndex==null):
+			var validIndices=get_indices_with_value(usedQuestionIndices,desiredUsageCount)
+			if validIndices.size()<1:
+				desiredUsageCount+=1
+				continue
+			# otherwise have a selection
+			questionIndex=validIndices[floor(rng.randf_range(0,validIndices.size()))]
+		# update
+		usedQuestionIndices[questionIndex]+=1
+	else:
+		questionIndex=lastIndex
+		lastIndex=(lastIndex+1)%questions.size()
 	var question=questions[questionIndex]
 	var missile=launch_TBM(questionIndex)
 	#pendingQuestions.append([questionIndex,missile])
@@ -190,6 +197,14 @@ func play_sound(position,audio,volume=0):
 	new_node.play(0)
 
 func _process(delta):
+	# nuke
+	#if Input.is_action_pressed("nuke"):
+	#	print('thaad')
+	#	for threat in incoming:
+	#		if(threat.get_class()=="Missile"):
+	#			print('engaging')
+	#			$level/SecretPatriot.fire(threat)
+
 	if(!is_instance_valid($GUI/reticle.target)):
 		$GUI/AnswerPanel.clear_buttons()
 	for threat in incoming:
@@ -206,11 +221,10 @@ func _process(delta):
 				threat.begin_shoot=floor(randi()%50)
 
 
-
 func game_over():
 	$level/AudioStreamPlayer.stop()
 	$level/MissileTimer.stop()
-	$level/GUI/reticle.hide()
+	$GUI/reticle.hide()
 	# this is a dumb way to do it but w/e
 	for eny in incoming:
 		if(is_instance_valid(eny)):
@@ -218,6 +232,8 @@ func game_over():
 	$GUI/panGameOver.show()
 	$GUI/panGameOver/lblScore.text=str(score)
 	$GUI/panGameOver/lblDifficulty.text=get_node("/root/Global").difficultyString
+	if(!random):
+		$GUI/panGameOver/lblDifficulty.text=$GUI/panGameOver/lblDifficulty.text+" (seq)"
 	
 
 func _on_StartTimer_timeout():
