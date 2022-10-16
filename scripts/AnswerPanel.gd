@@ -12,6 +12,7 @@ func _ready():
 	pass
 	
 func _process(delta):
+	
 	if Input.is_action_pressed("option1"):
 		_on_lblAnswer1_pressed()
 	elif Input.is_action_pressed("option2"):
@@ -21,9 +22,20 @@ func _process(delta):
 	elif Input.is_action_pressed("option4"):
 		_on_lblAnswer4_pressed()
 
-
+#func _input(event):
+#	if(get_node("/root/Global").difficulty==3):
+#		if(event is InputEventKey and event.pressed):
+#			print(OS.get_scancode_string(event.scancode))
+#	else:
+#		return
 
 func set_question_answers(array,row_index):
+	# manual mode
+	if(get_node("/root/Global").difficulty==3):
+		$lblPrompt.text=array[row_index][0]
+		correct=array[row_index][1]
+		$txtAnswer.grab_focus()
+		return
 	clear_buttons()
 	randomize()
 	var used_answers=[]
@@ -56,6 +68,9 @@ func reset_buttons():
 		self.get_children()[i].pressed=false
 		
 func clear_buttons():
+	if(get_node("/root/Global").difficulty==3):
+		$txtAnswer.text=""
+		$txtAnswer.release_focus()
 	$lblPrompt.text=""
 	for i in range(4):
 		self.get_children()[i].pressed=false
@@ -92,6 +107,9 @@ func _on_lblAnswer4_pressed():
 
 
 func _on_btnEngage_pressed():
+	print("pressed")
+	if(get_node("/root/Global").difficulty==3):
+		selected=$txtAnswer.text.strip_edges()
 	if(selected==correct):
 		clear_buttons()
 		emit_signal("correct_response",question)
@@ -101,3 +119,12 @@ func _on_btnEngage_pressed():
 			emit_signal("bad_response")
 		
 
+
+
+func _on_txtAnswer_text_changed():
+	selected=$txtAnswer.text
+	$btnEngage.disabled=false
+	# clumsy way to detect ENTER
+	if("\n" in selected):
+		$txtAnswer.text=$txtAnswer.text.strip_edges()
+		_on_btnEngage_pressed()

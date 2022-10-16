@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://art/bg.jpg" type="Texture" id=1]
 [ext_resource path="res://default_theme.tres" type="Theme" id=2]
@@ -162,6 +162,32 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="DynamicFont" id=20]
+font_data = ExtResource( 22 )
+
+[sub_resource type="StyleBoxFlat" id=18]
+bg_color = Color( 0.270588, 0.25098, 0.25098, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.87451, 0.670588, 0.105882, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id=19]
+bg_color = Color( 0.498039, 0.490196, 0.490196, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
 corner_radius_top_left = 5
 corner_radius_top_right = 5
 corner_radius_bottom_right = 5
@@ -344,6 +370,19 @@ margin_bottom = 76.0
 custom_fonts/font = ExtResource( 8 )
 align = 1
 uppercase = true
+
+[node name="txtAnswer" type="TextEdit" parent="GUI/AnswerPanel"]
+visible = false
+margin_left = 136.0
+margin_top = 48.0
+margin_right = 488.0
+margin_bottom = 88.0
+custom_fonts/font = SubResource( 20 )
+custom_styles/focus = SubResource( 18 )
+custom_styles/normal = SubResource( 19 )
+middle_mouse_paste_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
 
 [node name="lblScoreLabel" type="Label" parent="GUI"]
 visible = false
@@ -539,6 +578,7 @@ text = "Menu"
 [connection signal="pressed" from="GUI/AnswerPanel/lblAnswer3" to="GUI/AnswerPanel" method="_on_lblAnswer3_pressed"]
 [connection signal="pressed" from="GUI/AnswerPanel/lblAnswer4" to="GUI/AnswerPanel" method="_on_lblAnswer4_pressed"]
 [connection signal="pressed" from="GUI/AnswerPanel/btnEngage" to="GUI/AnswerPanel" method="_on_btnEngage_pressed"]
+[connection signal="text_changed" from="GUI/AnswerPanel/txtAnswer" to="GUI/AnswerPanel" method="_on_txtAnswer_text_changed"]
 [connection signal="pressed" from="GUI/panGameOver/btnRestart" to="." method="_on_btnRestart_pressed"]
 [connection signal="pressed" from="GUI/panGameOver/btnMenu" to="." method="_on_btnMenu_pressed"]
 [connection signal="pressed" from="GUI/lblPause/btnRestart" to="GUI" method="_on_btnRestart_pressed"]

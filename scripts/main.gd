@@ -15,6 +15,9 @@ var questions = []
 # stores repetition
 var usedQuestionIndices=[]
 
+# manual mode
+var manualMode=false
+
 var target=null
 var targets=[]
 
@@ -23,6 +26,9 @@ func _ready():
 	random=get_node("/root/Global").random
 	difficulty=get_node("/root/Global").difficulty
 	randomize()
+	if(difficulty==3):
+		manualMode=true
+		difficulty=0
 	print("new game")
 	new_game() 
 
@@ -45,7 +51,15 @@ func new_game():
 	$GUI/CityHealth.value=$GUI/CityHealth.max_value
 	$level/Player.start($level/playerStart.position)
 	
-
+	if(manualMode):
+		# ugly
+		$GUI/AnswerPanel/lblAnswer1.hide()
+		$GUI/AnswerPanel/lblAnswer2.hide()
+		$GUI/AnswerPanel/lblAnswer3.hide()
+		$GUI/AnswerPanel/lblAnswer4.hide()
+		
+		$GUI/AnswerPanel/txtAnswer.show()
+		
 	$level/AudioStreamPlayer.play(0)
 	print("starting timer")
 	questions=load_questions()
