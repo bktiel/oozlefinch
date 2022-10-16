@@ -189,7 +189,7 @@ func threat_clicked(id):
 	if($GUI/lblInstructions.visible):
 		$GUI/lblInstructions.hide()
 	$GUI/reticle.target=threat
-	$GUI/AnswerPanel.set_question_answers(questions,threat.questionIndex)
+	$GUI/AnswerPanel.set_question_answers(questions,threat)
 	
 func remove_target(target):
 	if(is_instance_valid(target)):
@@ -295,16 +295,18 @@ func _on_Player_launcher_reached(launcher):
 	if($level/Player.shocked):
 		return
 	# fire at first target
-	if(targets.size()>0):
+	if(!targets.empty()):
 		play_sound(launcher.position,"launch",-0.8)
-		var target=targets.front()
-		if(is_instance_valid(target)):
-			launcher.fire(target)
-		targets.erase(target)
+		var thisTarget=targets.front()
+		if(is_instance_valid(thisTarget)):
+			launcher.fire(thisTarget)
+		targets.erase(thisTarget)
 		if(targets.empty()):
 			$level/Player.firing=false
 		else:
 			engage()
+	else:
+		$level/Player.firing=false
 
 # city damaged, update HP
 func _on_City1_city_damaged():
@@ -335,9 +337,9 @@ func _sound_complete(node):
 	node.queue_free()
 
 # launch
-func _on_AnswerPanel_correct_response(ID):
-	if(is_instance_valid(target)):
-		targets.append(target)
+func _on_AnswerPanel_correct_response(thisThreat):
+	if(is_instance_valid(thisThreat)):
+		targets.append(thisThreat)
 		engage()
 	$GUI/AnswerPanel.clear_buttons()
 
@@ -372,13 +374,13 @@ func handle_interception():
 	update_score(score+1)
 
 
-func _on_Patriot_fire_missile(launcher):
+func _on_Patriot_fire_missile(launcher, thisTarget):
 	var missile=launcher.projectile.instance()
 	launcher.add_child(missile)
 	# events
 	missile.connect("intercepted",self,"handle_interception")
 	
 	if(launcher.direction==launcher.LAUNCHER_ORIENTATION.left):
-		missile.start(launcher.get_node("LaunchPointLeft").get_global_transform(),target)
+		missile.start(launcher.get_node("LaunchPointLeft").get_global_transform(),thisTarget)
 	else:
-		missile.start(launcher.get_node("LaunchPointRight").get_global_transform(),target)
+		missile.start(launcher.get_node("LaunchPointRight").get_global_transform(),thisTarget)

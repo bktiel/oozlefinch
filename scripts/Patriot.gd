@@ -16,7 +16,7 @@ func _ready():
 		$AnimatedSprite.play("left")
 
 func fire(target):
-	emit_signal("fire_missile",self)
+	emit_signal("fire_missile",self,target)
 		
 
 func get_class(): return "Patriot"

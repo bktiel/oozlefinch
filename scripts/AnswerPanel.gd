@@ -4,6 +4,7 @@ extends Panel
 var selected=0
 var correct=0
 var question=-1
+var threat=null
 signal correct_response(ID)
 signal bad_response()
 
@@ -29,7 +30,9 @@ func _process(delta):
 #	else:
 #		return
 
-func set_question_answers(array,row_index):
+func set_question_answers(array,thisThreat):
+	var row_index=thisThreat.questionIndex
+	threat=thisThreat
 	# manual mode
 	if(get_node("/root/Global").difficulty==3):
 		$lblPrompt.text=array[row_index][0]
@@ -112,7 +115,7 @@ func _on_btnEngage_pressed():
 		selected=$txtAnswer.text.strip_edges()
 	if(selected==correct):
 		clear_buttons()
-		emit_signal("correct_response",question)
+		emit_signal("correct_response",threat)
 		question=-1
 	else:
 		if(question!=-1):
