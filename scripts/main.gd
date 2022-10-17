@@ -15,8 +15,9 @@ var questions = []
 # stores repetition
 var usedQuestionIndices=[]
 
-# manual mode
+# extra modes
 var manualMode=false
+var babyMode=false
 
 var target=null
 var targets=[]
@@ -26,7 +27,7 @@ func _ready():
 	random=get_node("/root/Global").random
 	difficulty=get_node("/root/Global").difficulty
 	randomize()
-	if(difficulty==3):
+	if(difficulty==4):
 		manualMode=true
 		difficulty=0
 	print("new game")
@@ -37,7 +38,8 @@ func new_game():
 	$GUI/filter.hide()
 	$GUI/panGameOver.hide()
 	$level/MissileTimer.wait_time-=difficulty
-	if(difficulty==2):
+	# hard mode
+	if(difficulty==3):
 		$GUI/Threat.max_value=4
 	# reset vars
 	incoming=[]
@@ -127,7 +129,8 @@ func launch_TBM(index=0):
 	# give velocity
 	#var velocity = Vector2(rand_range(15, 20.0), 0.0)
 	#missile.linear_velocity = velocity.rotated(direction)
-	missile.set_applied_force(Vector2(0,0.08*(difficulty+1)+(0.1*cycles/100)).rotated(missile.rotation))
+	var thrust=clamp(difficulty,1,5)
+	missile.set_applied_force(Vector2(0,0.08*(thrust)+(0.1*cycles/100)).rotated(missile.rotation))
 	# add
 	$level.add_child(missile)
 	incoming.push_back(missile)
@@ -310,6 +313,9 @@ func _on_Player_launcher_reached(launcher):
 
 # city damaged, update HP
 func _on_City1_city_damaged():
+	# if practice, nothing
+	if(difficulty==0):
+		return
 	# show filter
 	$GUI/damagefilter.show()
 	position.y-=10

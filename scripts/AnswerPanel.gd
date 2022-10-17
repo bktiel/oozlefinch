@@ -23,18 +23,12 @@ func _process(delta):
 	elif Input.is_action_pressed("option4"):
 		_on_lblAnswer4_pressed()
 
-#func _input(event):
-#	if(get_node("/root/Global").difficulty==3):
-#		if(event is InputEventKey and event.pressed):
-#			print(OS.get_scancode_string(event.scancode))
-#	else:
-#		return
 
 func set_question_answers(array,thisThreat):
 	var row_index=thisThreat.questionIndex
 	threat=thisThreat
 	# manual mode
-	if(get_node("/root/Global").difficulty==3):
+	if(get_node("/root/Global").difficulty==4):
 		$lblPrompt.text=array[row_index][0]
 		correct=array[row_index][1]
 		$txtAnswer.grab_focus()
@@ -71,7 +65,7 @@ func reset_buttons():
 		self.get_children()[i].pressed=false
 		
 func clear_buttons():
-	if(get_node("/root/Global").difficulty==3):
+	if(get_node("/root/Global").difficulty==4):
 		$txtAnswer.text=""
 		$txtAnswer.release_focus()
 	$lblPrompt.text=""
@@ -111,7 +105,8 @@ func _on_lblAnswer4_pressed():
 
 func _on_btnEngage_pressed():
 	print("pressed")
-	if(get_node("/root/Global").difficulty==3):
+	# manual mode
+	if(get_node("/root/Global").difficulty==4):
 		selected=$txtAnswer.text.strip_edges()
 	if(selected==correct):
 		clear_buttons()
