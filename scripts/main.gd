@@ -29,7 +29,7 @@ func _ready():
 	randomize()
 	if(difficulty==4):
 		manualMode=true
-		difficulty=0
+		difficulty=1
 	print("new game")
 	new_game() 
 
